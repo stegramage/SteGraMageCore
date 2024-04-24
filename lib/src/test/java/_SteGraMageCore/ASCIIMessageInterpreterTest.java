@@ -20,7 +20,7 @@ class ASCIIMessageInterpreterTest {
 		Interpreter msgInterp = new ASCIIMessageInterpreter();
 		
 		int[] actual = msgInterp.interpretMessage("");
-		int[] expected = {0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01};
+		int[] expected = {};
 				
 		assertArrayEquals(expected, actual);
 	}
