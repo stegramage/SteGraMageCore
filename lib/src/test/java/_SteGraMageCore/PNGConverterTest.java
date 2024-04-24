@@ -6,35 +6,27 @@ import org.junit.jupiter.api.Test;
 class PNGConverterTest {
 
 	@Test
-	public void extractAlphaByteTest() {
+	public void extractRedBytetest() {
 		PNGConverter c = new PNGConverter();
 		int pixel = 0xFF87B6A0;
-		byte alpha = c.extractByte(pixel, PNGConverter.ALPHA);
-		assertEquals((byte) 0xFF, alpha);
+		int rojo = c.extractByte(pixel, PNGConverter.RED);
+		assertEquals(0x87, rojo);
 	}
 	
 	@Test
-	public void extractRedByteTest() {
+	public void extractGreenBytetest() {
 		PNGConverter c = new PNGConverter();
 		int pixel = 0xFF87B6A0;
-		byte red = c.extractByte(pixel, PNGConverter.RED);
-		assertEquals((byte) 0x87, red);
+		int rojo = c.extractByte(pixel, PNGConverter.GREEN);
+		assertEquals(0xB6, rojo);
 	}
 	
 	@Test
-	public void extractGreenByteTest() {
+	public void extractBlueBytetest() {
 		PNGConverter c = new PNGConverter();
 		int pixel = 0xFF87B6A0;
-		byte green = c.extractByte(pixel, PNGConverter.GREEN);
-		assertEquals((byte)0xB6, green);
+		int rojo = c.extractByte(pixel, PNGConverter.BLUE);
+		assertEquals(0xa0, rojo);
 	}
 	
-	@Test
-	public void extractBlueByteTest() {
-		PNGConverter c = new PNGConverter();
-		int pixel = 0xFF87B6A0;
-		byte blue = c.extractByte(pixel, PNGConverter.BLUE);
-		assertEquals((byte) 0xa0, blue);
-	}
-
 }

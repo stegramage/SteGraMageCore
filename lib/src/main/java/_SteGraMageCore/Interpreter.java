@@ -2,7 +2,7 @@ package _SteGraMageCore;
 
 public interface Interpreter {
 
-	public byte[] interpretMessage(String message);
+	public int[] interpretMessage(String message);
 	
-	public String interpretBytes(byte[] channel);
+	public String interpretChannel(int[] channel);
 }

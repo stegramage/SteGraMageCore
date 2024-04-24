@@ -8,7 +8,6 @@ import javax.imageio.ImageIO;
 
 public class PNGConverter implements Converter {
 
-	static final int ALPHA = 24;
 	static final int RED = 16;
 	static final int GREEN = 8;
 	static final int BLUE = 0;
@@ -17,53 +16,51 @@ public class PNGConverter implements Converter {
 	private BufferedImage _image;
 	
 	@Override
-	public byte[] channelToBytes () {
-		byte[] ret = new byte[_image.getHeight() * _image.getWidth() * 4];
+	public int[] channelToIntegers () {
+		int[] ret = new int[_image.getHeight() * _image.getWidth() * 3];
 		int cont_b = 0;
 		
 		for (int i = 0; i < _image.getWidth(); i++) {
 			for (int j = 0; j < _image.getHeight(); j++) {
 				int pixel = _image.getRGB(i, j);
-				ret[cont_b] =  extractByte(pixel, ALPHA);
-				ret[cont_b + 1] = extractByte(pixel, RED);
-				ret[cont_b + 2] = extractByte(pixel, GREEN);
-				ret[cont_b + 3] = extractByte(pixel, BLUE);
-				cont_b += 4;
+				ret[cont_b + 0] = extractByte(pixel, RED);
+				ret[cont_b + 1] = extractByte(pixel, GREEN);
+				ret[cont_b + 2] = extractByte(pixel, BLUE);
+				cont_b += 3;
 			}
 		}
 		
 		return ret;
 	}
 	
-	byte extractByte(int pixel, int shift)
+	int extractByte(int pixel, int shift)
 	{
 		pixel = (pixel >>> shift) & MASK;
-		return (byte) pixel;
+		return pixel;
 	}
 	
 	@Override
-	public void bytesToChannel (byte[] channel) {
+	public void integersToChannel (int[] channel) {
 		BufferedImage ret = new BufferedImage(_image.getWidth(), _image.getHeight(), _image.getType());
 		int cont_pos = 0;
 		for (int i = 0; i < ret.getWidth(); i++) {
 			for (int j = 0; j < ret.getHeight(); j++) {
-				int alpha = channel[cont_pos];
-				int red = channel[cont_pos + 1];
-				int green = channel[cont_pos + 2];
-				int blue = channel[cont_pos + 3];
-				int pixel = joinRGB(alpha, red, green, blue);
+				int red = channel[cont_pos + 0];
+				int green = channel[cont_pos + 1];
+				int blue = channel[cont_pos + 2];
+				int pixel = joinRGB(red, green, blue);
 				
 				ret.setRGB(i, j, pixel);
-				cont_pos += 4;
+				cont_pos += 3;
 			}
 		}
 		
 		_image = ret;
 	}
 	
-	private int joinRGB(int alpha, int red, int green, int blue) 
+	private int joinRGB(int red, int green, int blue) 
 	{
-		return ((alpha << ALPHA) + (red << RED) + (green << GREEN) + blue);
+		return ((red << RED) + (green << GREEN) + blue) ^ 0xff000000;
 	}
 	
 	@Override

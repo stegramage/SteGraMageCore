@@ -2,9 +2,9 @@ package _SteGraMageCore;
 
 public interface Converter {
 
-	public byte[] channelToBytes();
+	public int[] channelToIntegers();
 	
-	public void bytesToChannel(byte[] canal);
+	public void integersToChannel(int[] canal);
 	
 	public void openChannel(String path);
 	

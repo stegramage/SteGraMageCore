@@ -7,19 +7,19 @@ public class SteGraMage {
 	
 	public void hide(String message, String channel) {
 		_cc.openChannel(channel);
-		byte[] aux = hide(_mi.interpretMessage(message), _cc.channelToBytes());
-		_cc.bytesToChannel(aux);
+		int[] aux = hide(_mi.interpretMessage(message), _cc.channelToIntegers());
+		_cc.integersToChannel(aux);
 		_cc.saveChannel(channel);
 	}
 	
-	byte[] hide(byte[] message, byte[] channel) {
+	int[] hide(int[] message, int[] channel) {
 		if(message.length > channel.length)
 			throw new IllegalArgumentException();
 		
 		for (int i = 0; i < message.length; i++) {
-			 channel[i] = (byte) (channel[i] >>> 1);
-			 channel[i] = (byte) (channel[i] << 1);
-			 channel[i] = (byte) (channel[i] ^ message[i]);
+			 channel[i] = (channel[i] >>> 1);
+			 channel[i] = (channel[i] << 1);
+			 channel[i] = (channel[i] ^ message[i]);
 		}
 		
 		return channel;
@@ -27,12 +27,12 @@ public class SteGraMage {
 	
 	public String unhide(String channel) {
 		_cc.openChannel(channel);
-		byte[] aux = unhide(_cc.channelToBytes());
-		return _mi.interpretBytes(aux);
+		int[] aux = unhide(_cc.channelToIntegers());
+		return _mi.interpretChannel(aux);
 	}
 	
-	byte[] unhide(byte[] channel) {
-		byte[] b_mensaje = new byte[channel.length];
+	int[] unhide(int[] channel) {
+		int[] b_mensaje = new int[channel.length];
 		
 		for(int i = 0; i < channel.length; i++) {
 			b_mensaje[i] = extractBit(channel[i]); 	
@@ -41,8 +41,8 @@ public class SteGraMage {
 		return b_mensaje;
 	}
 	
-	private byte extractBit(byte chanel) {
-		return (byte) (chanel & (byte) 0x01);
+	private int extractBit(int chanel) {
+		return chanel & 0x00000001;
 	}
 
 	public void setConverter(Converter cc) {
