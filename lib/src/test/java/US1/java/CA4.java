@@ -20,8 +20,9 @@ class CA4 {
 		st.setConverter(mch);
 		
 		st.hide(msg, "/path/to/nothig");
+		st.unhide("unhide");
 		
-		assertEquals(msg, st.unhide("unhide"));
+		assertEquals(msg, st.getMessageUnhided());
 	}
 
 }
