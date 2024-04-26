@@ -32,12 +32,10 @@ public class MockChannelConverter implements Converter {
 	public void openChannel(String path) {
 		if(path.equals("unhide"))
 			_channel_in = _channel_out;
-		System.out.println("Channel open");
 	}
 
 	@Override
 	public void saveChannel(String path) {
-		System.out.println("Channel saved");
 	}
 
 	public int[] getChannelIn() {
