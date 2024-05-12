@@ -1,23 +1,26 @@
-package US1.java;
+package _US1.java;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+
 import _SteGraMageCore.ASCIIMessageInterpreter;
 import _SteGraMageCore.SteGraMage;
 import resources.MockChannelConverter;
 
-class CA1 {
+class CA2 {
 
 	@Test
-	void espacioInsuficienteTest() {
+	void mensajeVacioTest() {
 		MockChannelConverter mch = new MockChannelConverter(2);
 		ASCIIMessageInterpreter mi = new ASCIIMessageInterpreter();
 		SteGraMage st = new SteGraMage();
 		st.setInterpreter(mi);
 		st.setConverter(mch);
-				
-		assertThrows(IllegalArgumentException.class, () -> st.hide("hola", "/path/to/nothig"));
+		
+		st.hide("", "/path/to/nothig");
+		
+		assertArrayEquals(mch.getChannelOut(), mch.getChannelIn());
 	}
 
 }
