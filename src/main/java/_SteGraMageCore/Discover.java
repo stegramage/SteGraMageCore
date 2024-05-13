@@ -1,5 +1,6 @@
 package _SteGraMageCore;
 
+
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
@@ -10,18 +11,22 @@ public class Discover {
         Set<Object> result = new HashSet<>();
 
         for (File f : new File(path).listFiles()) {
-
             if (!f.getName().endsWith(".class")) continue;
-            String className = "_SteGraMageCore." + f.getName().replace(".class", "");
-            Class cls = Class.forName(className);
 
-            if (!_SteGraMageCore.Interpreter.class.isAssignableFrom(cls) || cls.isInterface()) {
-                System.out.println(cls.getName() + " NO IMPLEMENTA " + _SteGraMageCore.Interpreter.class.getName());
-//                throw new RuntimeException();
+            String className = f.getName().replace(".class", "");
+            Class<?> cls = Class.forName(className); // No need to prepend package name
+
+            if (!_SteGraMageCore.Interpreter.class.isAssignableFrom(cls) || cls.isInterface() || java.lang.reflect.Modifier.isAbstract(cls.getModifiers())) {
+                System.out.println(cls.getName() + " does not implement or extend _SteGraMageCore.Interpreter interface");
             } else {
-//                result.add(cls);
-                // Crea una instancia de cada clase que cumple con la interface Interpreter
-                result.add(cls.getDeclaredConstructor().newInstance());
+                // Check if the class has a default constructor
+                if (cls.getDeclaredConstructor() != null) {
+                    // Create an instance of the class
+                    Object instance = cls.getDeclaredConstructor().newInstance();
+                    result.add(instance);
+                } else {
+                    System.out.println(cls.getName() + " does not have a default constructor");
+                }
             }
         }
         return result;
@@ -29,10 +34,10 @@ public class Discover {
 }
 
 class Main {
-
     public static void main(String[] args) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchMethodException {
         Discover discover = new Discover();
-        Set<Object> result = discover.findClasses("bin/main/_SteGraMageCore");
+        Set<Object> result = discover.findClasses("plugins");
+
         System.out.println("\nMain");
         System.out.println(result);
 
@@ -41,3 +46,4 @@ class Main {
         }
     }
 }
+
