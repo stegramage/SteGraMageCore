@@ -28,16 +28,12 @@ public class Discover {
             Set<Class<?>> classes = getClassesFromJarFile(f);
             
             for (Class<?> cls : classes) {
-	            if (!_SteGraMageCore.Interpreter.class.isAssignableFrom(cls) || cls.isInterface() || java.lang.reflect.Modifier.isAbstract(cls.getModifiers())) {
-	                System.out.println(cls.getName() + " does not implement or extend _SteGraMageCore.Interpreter interface");
-	            } else {
+	            if (_SteGraMageCore.Interpreter.class.isAssignableFrom(cls) || !cls.isInterface() || !java.lang.reflect.Modifier.isAbstract(cls.getModifiers())) {
 	                // Check if the class has a default constructor
 	                if (cls.getDeclaredConstructor() != null) {
 	                    // Create an instance of the class
 	                    Object instance = cls.getDeclaredConstructor().newInstance();
 	                    result.add(instance);
-	                } else {
-	                    System.out.println(cls.getName() + " does not have a default constructor");
 	                }
 	            }
             }
@@ -79,19 +75,3 @@ public class Discover {
         return classNames;
     }
 }
-
-//class Main {
-//    public static void main(String[] args) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchMethodException {
-//        Discover discover = new Discover();
-//        
-//        Set<Object> result = discover.findClasses("plugins");
-//
-//        System.out.println("\nMain");
-//        System.out.println(result);
-//
-//        for (Object obj : result) {
-//            System.out.println(obj.getClass());
-//        }
-//    }
-//}
-
