@@ -7,6 +7,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import _SteGraMageCore.Discover;
+import _SteGraMageCore.Interpreter;
 
 class CA2 {
 
@@ -14,7 +15,7 @@ class CA2 {
 	void emptyFolderTest() {
 		Discover dis = new Discover();
 		
-		Set<Object> result = null;
+		Set<Interpreter> result = null;
 		try {
 			result = dis.findClasses("plugins/carpetaVacia");
 		} catch (Exception e) {
