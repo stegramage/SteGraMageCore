@@ -1,4 +1,4 @@
-package US1.java;
+package _US1.java;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,19 +8,21 @@ import _SteGraMageCore.ASCIIMessageInterpreter;
 import _SteGraMageCore.SteGraMage;
 import resources.MockChannelConverter;
 
-class CA2 {
+class CA4 {
 
 	@Test
-	void mensajeVacioTest() {
-		MockChannelConverter mch = new MockChannelConverter(2);
+	void extraerMensajeTest() {
+		String msg = "hola";
+		MockChannelConverter mch = new MockChannelConverter(40);
 		ASCIIMessageInterpreter mi = new ASCIIMessageInterpreter();
 		SteGraMage st = new SteGraMage();
 		st.setInterpreter(mi);
 		st.setConverter(mch);
 		
-		st.hide("", "/path/to/nothig");
+		st.hide(msg, "/path/to/nothig");
+		st.unhide("unhide");
 		
-		assertArrayEquals(mch.getChannelOut(), mch.getChannelIn());
+		assertEquals(msg, st.getMessageUnhided());
 	}
 
 }
