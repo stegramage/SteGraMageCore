@@ -13,10 +13,10 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class Discover {
-    public Set<Object> findClasses(String path) throws ClassNotFoundException, IllegalAccessException, 
+    public Set<Interpreter> findClasses(String path) throws ClassNotFoundException, IllegalAccessException, 
     			InstantiationException, NoSuchMethodException, InvocationTargetException, FileNotFoundException {
         
-    	Set<Object> result = new HashSet<>();
+    	Set<Interpreter> result = new HashSet<>();
     	
     	File file = new File(path);
     	
@@ -33,7 +33,7 @@ public class Discover {
 	                if (cls.getDeclaredConstructor() != null) {
 	                    // Create an instance of the class
 	                    Object instance = cls.getDeclaredConstructor().newInstance();
-	                    result.add(instance);
+	                    result.add((Interpreter)instance);
 	                }
 	            }
             }
