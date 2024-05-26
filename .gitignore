@@ -3,3 +3,10 @@
 
 # Ignore Gradle build output directory
 build
+
+# Ignore build.gradle
+lib/build.gradle
+
+# Ignore github workflows
+.github/workflows/gradle.yml
+
