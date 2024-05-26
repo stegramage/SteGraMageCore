@@ -81,8 +81,8 @@ public class SteGraMage {
 		_mi = mi;
 	}
 	
-	public void configure() {
-		_cc = new PNGConverter();
-		_mi = new ASCIIMessageInterpreter();
+	public void configure(Converter c, Interpreter i) {
+		_cc = c;
+		_mi = i;
 	}
 }
