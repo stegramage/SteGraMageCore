@@ -17,7 +17,7 @@ Discover dis = new Discover();
 		
 		Set<Codec> result = null;
 		try {
-			result = dis.findClasses("plugins/noEsInterprete");
+			result = dis.findClasses("plugins/noEsCodec");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
