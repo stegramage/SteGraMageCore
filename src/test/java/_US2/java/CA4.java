@@ -5,7 +5,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import _SteGraMageCore.Discover;
-import _SteGraMageCore.Interpreter;
+import _SteGraMageCore.Codec;
 import resources.Assert;
 
 class CA4 {
@@ -14,7 +14,7 @@ class CA4 {
 	void oneInterpreterTest() {
 		Discover dis = new Discover();
 		
-		Set<Interpreter> result = null;
+		Set<Codec> result = null;
 		try {
 			result = dis.findClasses("plugins/interprete");
 		} catch (Exception e) {

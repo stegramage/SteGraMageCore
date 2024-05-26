@@ -6,7 +6,7 @@ import java.util.Set;
 public class SteGraMage {
 
 	private Converter _cc;
-	private Interpreter _mi;
+	private Codec _mc;
 	private String _messageUnhided;
 	private Set<Observer> _observers;
 	
@@ -16,7 +16,7 @@ public class SteGraMage {
 	
 	public void hide(String message, String channel) {
 		_cc.openChannel(channel);
-		int[] aux = hide(_mi.interpretMessage(message), _cc.channelToIntegers());
+		int[] aux = hide(_mc.encodeMessage(message), _cc.channelToIntegers());
 		_cc.integersToChannel(aux);
 		_cc.saveChannel(channel);
 		notifyObservers();
@@ -38,7 +38,7 @@ public class SteGraMage {
 	public void unhide(String channel) {
 		_cc.openChannel(channel);
 		int[] aux = unhide(_cc.channelToIntegers());
-		_messageUnhided = _mi.interpretChannel(aux);
+		_messageUnhided = _mc.decodeChannel(aux);
 		notifyObservers();
 	}
 	
@@ -77,12 +77,12 @@ public class SteGraMage {
 		_cc = cc;
 	}
 
-	public void setInterpreter(Interpreter mi) {
-		_mi = mi;
+	public void setCodec(Codec mc) {
+		_mc = mc;
 	}
 	
-	public void configure(Converter c, Interpreter i) {
+	public void configure(Converter c, Codec i) {
 		_cc = c;
-		_mi = i;
+		_mc = i;
 	}
 }

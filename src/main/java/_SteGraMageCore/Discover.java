@@ -13,10 +13,10 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class Discover {
-    public Set<Interpreter> findClasses(String path) throws ClassNotFoundException, IllegalAccessException, 
+    public Set<Codec> findClasses(String path) throws ClassNotFoundException, IllegalAccessException, 
     			InstantiationException, NoSuchMethodException, InvocationTargetException, FileNotFoundException {
         
-    	Set<Interpreter> result = new HashSet<>();
+    	Set<Codec> result = new HashSet<>();
     	
     	File file = new File(path);
     	
@@ -28,12 +28,12 @@ public class Discover {
             Set<Class<?>> classes = getClassesFromJarFile(f);
             
             for (Class<?> cls : classes) {
-	            if (_SteGraMageCore.Interpreter.class.isAssignableFrom(cls) || !cls.isInterface() || !java.lang.reflect.Modifier.isAbstract(cls.getModifiers())) {
+	            if (_SteGraMageCore.Codec.class.isAssignableFrom(cls) || !cls.isInterface() || !java.lang.reflect.Modifier.isAbstract(cls.getModifiers())) {
 	                // Check if the class has a default constructor
 	                if (cls.getDeclaredConstructor() != null) {
 	                    // Create an instance of the class
 	                    Object instance = cls.getDeclaredConstructor().newInstance();
-	                    result.add((Interpreter)instance);
+	                    result.add((Codec)instance);
 	                }
 	            }
             }

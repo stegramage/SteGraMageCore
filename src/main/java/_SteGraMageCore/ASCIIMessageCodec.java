@@ -2,10 +2,10 @@ package _SteGraMageCore;
 
 import java.util.ArrayList;
 
-public class ASCIIMessageInterpreter implements Interpreter {
+public class ASCIIMessageCodec implements Codec {
 	
 	@Override
-	public int[] interpretMessage(String message) {
+	public int[] encodeMessage(String message) {
 		if(message.equals(""))
 			return new int[0];
 		
@@ -33,7 +33,7 @@ public class ASCIIMessageInterpreter implements Interpreter {
 	}
 	
 	@Override
-	public String interpretChannel(int[] channel) {
+	public String decodeChannel(int[] channel) {
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		char[] chars;
 		

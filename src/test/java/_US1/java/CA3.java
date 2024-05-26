@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import _SteGraMageCore.ASCIIMessageInterpreter;
+import _SteGraMageCore.ASCIIMessageCodec;
 import _SteGraMageCore.SteGraMage;
 import resources.MockChannelConverter;
 
@@ -13,9 +13,9 @@ class CA3 {
 	@Test
 	void contieneUnMensajeTest() {
 		MockChannelConverter mch = new MockChannelConverter(40);
-		ASCIIMessageInterpreter mi = new ASCIIMessageInterpreter();
+		ASCIIMessageCodec mc = new ASCIIMessageCodec();
 		SteGraMage st = new SteGraMage();
-		st.setInterpreter(mi);
+		st.setCodec(mc);
 		st.setConverter(mch);
 		
 		st.hide("hola", "/path/to/nothig");
