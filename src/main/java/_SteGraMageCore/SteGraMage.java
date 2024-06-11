@@ -16,20 +16,21 @@ public class SteGraMage {
 	
 	public void hide(String message, String channel) {
 		_cc.openChannel(channel);
-		int[] aux = hide(_mc.encodeMessage(message), _cc.channelToIntegers());
+		char[] aux = hide(_mc.encodeMessage(message), _cc.channelToIntegers());
 		_cc.integersToChannel(aux);
 		_cc.saveChannel(channel);
 		notifyObservers();
 	}
 	
-	int[] hide(int[] message, int[] channel) {
-		if(message.length > channel.length)
+	char[] hide(int[] message, char[] channel) {
+		if(message.length > channel.length * 8)
 			throw new IllegalArgumentException();
 		
 		for (int i = 0; i < message.length; i++) {
-			 channel[i] = (channel[i] >>> 1);
-			 channel[i] = (channel[i] << 1);
-			 channel[i] = (channel[i] ^ message[i]);
+			if (message[i] == 1)
+				channel[i] = Character.toUpperCase(channel[i]);
+			else
+				channel[i] = Character.toLowerCase(channel[i]);
 		}
 		
 		return channel;
@@ -42,7 +43,7 @@ public class SteGraMage {
 		notifyObservers();
 	}
 	
-	int[] unhide(int[] channel) {
+	int[] unhide(char[] channel) {
 		int[] b_mensaje = new int[channel.length];
 		
 		for(int i = 0; i < channel.length; i++) {
@@ -52,8 +53,8 @@ public class SteGraMage {
 		return b_mensaje;
 	}
 	
-	private int extractBit(int chanel) {
-		return chanel & 0x00000001;
+	private int extractBit(char channel) {
+		return Character.isUpperCase(channel) ? 1 : 0;
 	}
 
 	public String getMessageUnhided() {

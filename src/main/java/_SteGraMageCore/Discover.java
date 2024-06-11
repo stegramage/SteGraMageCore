@@ -13,6 +13,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class Discover {
+	private Set<Class<?>> _classes;
+	
     public Set<Codec> findClasses(String path) throws ClassNotFoundException, IllegalAccessException, 
     			InstantiationException, NoSuchMethodException, InvocationTargetException, FileNotFoundException {
         
@@ -25,14 +27,14 @@ public class Discover {
         for (File f : file.listFiles()) {
             if (!f.getName().endsWith(".jar")) continue;
 
-            Set<Class<?>> classes = getClassesFromJarFile(f);
+            _classes = getClassesFromJarFile(f);
             
-            for (Class<?> cls : classes) {
+            for (Class<?> cls : _classes) {
 	            if (_SteGraMageCore.Codec.class.isAssignableFrom(cls) || !cls.isInterface() || !java.lang.reflect.Modifier.isAbstract(cls.getModifiers())) {
 	                // Check if the class has a default constructor
-	                if (cls.getDeclaredConstructor() != null) {
+	                if (cls.getDeclaredConstructor(new Class[] {Codec.class}) != null) {
 	                    // Create an instance of the class
-	                    Object instance = cls.getDeclaredConstructor().newInstance();
+	                    Object instance = cls.getDeclaredConstructor(new Class[] {Codec.class}).newInstance(new ASCIIMessageCodec());
 	                    result.add((Codec)instance);
 	                }
 	            }
@@ -73,5 +75,9 @@ public class Discover {
         	e.printStackTrace();
         }
         return classNames;
+    }
+    
+    public Set<Class<?>> getPlugins() {
+    	return _classes;
     }
 }
