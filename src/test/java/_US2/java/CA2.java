@@ -15,7 +15,7 @@ class CA2 {
 	void emptyFolderTest() {
 		Discover dis = new Discover();
 		
-		Set<Codec> result = null;
+		Set<Class<?>> result = null;
 		try {
 			result = dis.findClasses("plugins/carpetaVacia");
 		} catch (Exception e) {

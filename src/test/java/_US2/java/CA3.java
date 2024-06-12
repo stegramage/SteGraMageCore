@@ -15,7 +15,7 @@ class CA3 {
 	void isNotInterpreterTest() {
 Discover dis = new Discover();
 		
-		Set<Codec> result = null;
+		Set<Class<?>> result = null;
 		try {
 			result = dis.findClasses("plugins/noEsCodec");
 		} catch (Exception e) {

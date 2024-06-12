@@ -48,3 +48,19 @@ public class CodecBuilder {
 	}
 
 }
+
+
+
+
+//T build(List<String> names) {
+//T result = null
+//for ( String it : names) {
+//	Class<T> next = Class.forname(names[0])
+//	if (result == null) 
+//		result = next.newInstances()
+//	else
+//		result = next.getConstructor(new Class[] {T.class}).newInstance(result)
+//}
+//return result
+//}
+
