@@ -17,5 +17,9 @@ public abstract class CodecDecorator implements Codec {
 	public String decodeChannel(int[] channel) {
 		return _wrappee.decodeChannel(channel);
 	}
+	
+	public Codec getCodec() {
+		return _wrappee;
+	}
 
 }

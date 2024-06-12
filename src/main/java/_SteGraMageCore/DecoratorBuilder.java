@@ -15,23 +15,24 @@ public class DecoratorBuilder<T>{
 	
 	public T buildComponent(List<String> names) {		
 		T component = null;
-		
-		try {
-			_iface = getComponentInterface(names.get(0));
-			
-			for ( String name : names) {
-				Class<?> cls = Class.forName(name);
-				if (component == null)
-					component = getConcretComponent(cls);
-				else {
-					if (_plugins.contains(cls)) {
-						component = decorateComponent(component, cls);
+		if (names.size() > 0) {
+			try {
+				_iface = getComponentInterface(names.get(0));
+				
+				for ( String name : names) {
+					Class<?> cls = Class.forName(name);
+					if (component == null)
+						component = getConcretComponent(cls);
+					else {
+						if (_plugins.contains(cls)) {
+							component = decorateComponent(component, cls);
+						}
 					}
 				}
+			} catch (InstantiationException | IllegalAccessException | InvocationTargetException
+					| NoSuchMethodException | ClassNotFoundException e) {
+				e.printStackTrace();
 			}
-		} catch (InstantiationException | IllegalAccessException | InvocationTargetException
-				| NoSuchMethodException | ClassNotFoundException e) {
-			e.printStackTrace();
 		}
 	
 		return component;
