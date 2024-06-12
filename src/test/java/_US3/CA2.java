@@ -2,9 +2,10 @@ package _US3;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.lang.reflect.InvocationTargetException;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -16,32 +17,33 @@ import _SteGraMageCore.Discover;
 class CA2 {
 
 	@Test
-	void test() {
+	void oneTimeDecoratedComponentTest() {
 		Discover dis = new Discover();
 		
 		Set<Class<?>> plugins = new HashSet<Class<?>>();
 		try {
 			plugins = dis.findClasses("plugins/codecsMultiples");
-		} catch (Exception e) {
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		
 		DecoratorBuilder<Codec> cb = new DecoratorBuilder<Codec>(plugins);
 		
-		ArrayList<String> order = new ArrayList<String>();
+		List<String> order = new ArrayList<String>();
 		order.add("_SteGraMageCore.ASCIIMessageCodec");
 		order.add("ROT13");
 		
-		Codec codec = null;
+		Codec codec = cb.buildComponent(order);
+		Class<?> cls = null;
 		try {
-			codec = cb.build(order);
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException | ClassNotFoundException e) {
+			cls = Class.forName("ROT13");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		
-		assertTrue(plugins.contains(codec.getClass()) );
+		assertTrue(plugins.contains(codec.getClass()));
+		assertEquals(cls, codec.getClass());
 	}
 
 }
