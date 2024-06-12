@@ -11,7 +11,7 @@ class CA5 {
 
 	@Test
 	void multiInterpreterTest() {
-Discover dis = new Discover();
+		Discover dis = new Discover();
 		
 		Set<Class<?>> result = null;
 		try {
