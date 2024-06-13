@@ -19,6 +19,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
-	<classpathentry kind="lib" path="plugins/*"/>
+	<classpathentry kind="lib" path="plugins"/>
+	<classpathentry kind="lib" path="plugins/codec"/>
+	<classpathentry kind="lib" path="plugins/codecsMultiples"/>
 	<classpathentry kind="output" path="bin/default"/>
 </classpath>
