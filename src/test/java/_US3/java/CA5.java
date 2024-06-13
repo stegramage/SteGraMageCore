@@ -1,4 +1,4 @@
-package _US3;
+package _US3.java;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,15 +14,15 @@ import _SteGraMageCore.Codec;
 import _SteGraMageCore.DecoratorBuilder;
 import _SteGraMageCore.Discover;
 
-class CA4 {
+class CA5 {
 
 	@Test
-	void emptyConfigurationOrdertest() {
+	void IllegalCodecsDecoratorsInConfigurationOrderListTest() {
 		Discover dis = new Discover();
 		
-		Set<Class<?>> plugins =new HashSet<Class<?>>();
+		Set<Class<?>> plugins = new HashSet<Class<?>>();
 		try {
-			plugins = dis.findClasses("plugins/codecsMultiples");
+			plugins = dis.findClasses("plugins/codecsMultiples", Codec.class);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -30,10 +30,20 @@ class CA4 {
 		DecoratorBuilder<Codec> cb = new DecoratorBuilder<Codec>(plugins);
 		
 		List<String> order = new ArrayList<String>();
+		order.add("_SteGraMageCore.ASCIIMessageCodec");
+		order.add("BOT31");
+		order.add("Pase46");
 		
 		Codec codec = cb.buildComponent(order);
 		
-		assertNull(codec);
+		Class<?> cls = null;
+		try {
+			cls = Class.forName("_SteGraMageCore.ASCIIMessageCodec");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		assertEquals(cls, codec.getClass());
 	}
 
 }

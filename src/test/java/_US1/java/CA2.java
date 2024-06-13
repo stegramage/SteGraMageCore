@@ -11,7 +11,7 @@ import resources.MockChannelConverter;
 class CA2 {
 
 	@Test
-	void mensajeVacioTest() {
+	void emptyMessageTest() {
 		MockChannelConverter mch = new MockChannelConverter(2);
 		ASCIIMessageCodec mc = new ASCIIMessageCodec();
 		SteGraMage st = new SteGraMage();

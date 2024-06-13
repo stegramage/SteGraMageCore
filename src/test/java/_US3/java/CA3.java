@@ -1,4 +1,4 @@
-package _US3;
+package _US3.java;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +23,7 @@ class CA3 {
 		
 		Set<Class<?>> plugins = new HashSet<Class<?>>();
 		try {
-			plugins = dis.findClasses("plugins/codecsMultiples");
+			plugins = dis.findClasses("plugins/codecsMultiples", Codec.class);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

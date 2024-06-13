@@ -10,7 +10,7 @@ import resources.MockChannelConverter;
 class CA1 {
 
 	@Test
-	void espacioInsuficienteTest() {
+	void notEnoughSpaceTest() {
 		MockChannelConverter mch = new MockChannelConverter(2);
 		ASCIIMessageCodec mc = new ASCIIMessageCodec();
 		SteGraMage st = new SteGraMage();

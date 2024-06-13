@@ -17,7 +17,7 @@ class CA2 {
 		
 		Set<Class<?>> result = null;
 		try {
-			result = dis.findClasses("plugins/carpetaVacia");
+			result = dis.findClasses("plugins/carpetaVacia", Codec.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

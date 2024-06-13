@@ -3,7 +3,7 @@ package _SteGraMageCore;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-class ASCIIMessageInterpreterTest {
+class ASCIIMessageCodecTest {
 
 	@Test
 	public void interpretMessageTest() {

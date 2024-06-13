@@ -12,12 +12,12 @@ import _SteGraMageCore.Codec;
 class CA3 {
 
 	@Test
-	void isNotInterpreterTest() {
-Discover dis = new Discover();
+	void isNotCodecTest() {
+		Discover dis = new Discover();
 		
 		Set<Class<?>> result = null;
 		try {
-			result = dis.findClasses("plugins/noEsCodec");
+			result = dis.findClasses("plugins/noEsCodec", Codec.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

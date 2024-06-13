@@ -11,7 +11,7 @@ import resources.MockChannelConverter;
 class CA4 {
 
 	@Test
-	void extraerMensajeTest() {
+	void extractMessageTest() {
 		String msg = "hola";
 		MockChannelConverter mch = new MockChannelConverter(40);
 		ASCIIMessageCodec mc = new ASCIIMessageCodec();

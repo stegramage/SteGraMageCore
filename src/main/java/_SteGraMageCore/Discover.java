@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class Discover {
 		
-    public Set<Class<?>> findClasses(String path) throws FileNotFoundException { 
+    public Set<Class<?>> findClasses(String path, Class<?> clazz) throws FileNotFoundException { 
         
     	Set<Class<?>> result = new HashSet<>();
     	
@@ -21,16 +21,15 @@ public class Discover {
 	            String className = f.getName().replace(".class", "");
 	            Class<?> cls = Class.forName(className); // No need to prepend package name
 	                        
-	            if (!_SteGraMageCore.Codec.class.isAssignableFrom(cls)) continue;
+	            if (!clazz.isAssignableFrom(cls)) continue;
 	            
-	            result.add(cls);
-	            
+	            result.add(cls);            
 	        }
+	        
     	} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
     	
         return result;
     }
-    
 }

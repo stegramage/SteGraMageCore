@@ -4,18 +4,19 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import _SteGraMageCore.Codec;
 import _SteGraMageCore.Discover;
 import resources.Assert;
 
 class CA4 {
 
 	@Test
-	void oneInterpreterTest() {
+	void oneCodecTest() {
 		Discover dis = new Discover();
 		
 		Set<Class<?>> result = null;
 		try {
-			result = dis.findClasses("plugins/codec");
+			result = dis.findClasses("plugins/codec", Codec.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
