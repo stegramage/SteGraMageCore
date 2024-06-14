@@ -1,17 +1,104 @@
 package _SteGraMageCore;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class SteGraMage {
 
 	private Converter _cc;
 	private Codec _mc;
+	private List<String> _codecList, _converterList;
+	private static Set<Class<?>> _plugins;
 	private String _messageUnhided;
 	private Set<Observer> _observers;
 	
-	public SteGraMage() {
+	public static void configure() {
+		Discover dis = new Discover();
+		Set<Class<?>> pCod = new HashSet<Class<?>>(); 
+		Set<Class<?>> pCon = new HashSet<Class<?>>();
+		try {
+			pCod = dis.findClasses("plugins/", Codec.class);
+			pCon = dis.findClasses("plugins/", Converter.class);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		pCod.addAll(pCon);
+		_plugins = pCod;
+	}
+	
+	public static SteGraMage defaultInstance() {
+		SteGraMage ret = new SteGraMage();
+		ret.configure(new ArrayList<String>(), new ArrayList<String>());
+		return ret;
+	}
+	
+	public static SteGraMage createInstance(List<String> codecList) {
+		SteGraMage ret = new SteGraMage();
+		ret.configure(codecList, new ArrayList<String>());
+		return ret;
+	}
+	
+	private SteGraMage() {
 		_observers = new HashSet<Observer>();
+		defaultCodecList();
+		defaultConverterList();
+	}
+	
+	private void configure(List<String> codecList, List<String> converterList) {
+		if (_plugins == null) {
+			Discover dis = new Discover();
+			Set<Class<?>> pCod = new HashSet<Class<?>>(); 
+			Set<Class<?>> pCon = new HashSet<Class<?>>();
+			try {
+				pCod = dis.findClasses("plugins/", Codec.class);
+				pCon = dis.findClasses("plugins/", Converter.class);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+			pCod.addAll(pCon);
+			_plugins = pCod;
+		}
+		
+		if (_cc != null || _mc != null) {
+			defaultCodecList();
+			defaultConverterList();
+		}
+		
+		addCodecDecoratorsToList(codecList);
+		addConverterDecoratorsToList(converterList);
+		
+		DecoratorBuilder<Codec> codecBuilder = new DecoratorBuilder<Codec>(_plugins);
+		DecoratorBuilder<Converter> converterBuilder = new DecoratorBuilder<Converter>(_plugins);
+		
+		_cc = converterBuilder.buildComponent(_converterList);
+		_mc = codecBuilder.buildComponent(_codecList);
+	}
+	
+	private void addConverterDecoratorsToList(List<String> decoratorsList) {
+		addDecoratorsToList(_converterList, decoratorsList);
+	}
+
+	private void addDecoratorsToList(List<String> components, List<String> decorators) {
+		components.addAll(decorators);		
+	}
+
+	private void addCodecDecoratorsToList(List<String> decoratorsList) {
+		addDecoratorsToList(_codecList, decoratorsList);		
+	}
+
+	private void defaultCodecList() {
+		_converterList = new ArrayList<String>();
+		_converterList.add("_SteGraMageCore.ChannelConverter");
+	}
+
+	private void defaultConverterList() {
+		_codecList = new ArrayList<String>();
+		_codecList.add("_SteGraMageCore.ASCIIMessageCodec");
 	}
 	
 	public void hide(String message, String channel) {
@@ -74,16 +161,14 @@ public class SteGraMage {
 			obs.update(this);
 	}
 		
-	public void setConverter(Converter cc) {
-		_cc = cc;
-	}
-
-	public void setCodec(Codec mc) {
-		_mc = mc;
+	public static Set<Class<?>> getPlugins() {
+		Set<Class<?>> ret = new HashSet<Class<?>>();
+		ret.addAll(_plugins);
+		return ret;
 	}
 	
-	public void configure(Converter c, Codec i) {
+	public void setConverter(Converter c) {
 		_cc = c;
-		_mc = i;
 	}
+
 }

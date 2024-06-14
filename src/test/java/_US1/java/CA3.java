@@ -13,9 +13,8 @@ class CA3 {
 	@Test
 	void containsAMessageTest() {
 		MockChannelConverter mch = new MockChannelConverter(40);
-		ASCIIMessageCodec mc = new ASCIIMessageCodec();
-		SteGraMage st = new SteGraMage();
-		st.setCodec(mc);
+		SteGraMage.configure();
+		SteGraMage st = SteGraMage.defaultInstance();
 		st.setConverter(mch);
 		
 		st.hide("hola", "/path/to/nothig");

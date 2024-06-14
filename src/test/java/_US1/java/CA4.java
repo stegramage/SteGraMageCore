@@ -14,9 +14,8 @@ class CA4 {
 	void extractMessageTest() {
 		String msg = "hola";
 		MockChannelConverter mch = new MockChannelConverter(40);
-		ASCIIMessageCodec mc = new ASCIIMessageCodec();
-		SteGraMage st = new SteGraMage();
-		st.setCodec(mc);
+		SteGraMage.configure();
+		SteGraMage st = SteGraMage.defaultInstance();
 		st.setConverter(mch);
 		
 		st.hide(msg, "/path/to/nothig");
