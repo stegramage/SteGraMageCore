@@ -49,7 +49,8 @@ public class SteGraMage {
 	}
 	
 	private SteGraMage() {
-		_observers = new HashSet<Observer>();
+		if (_observers == null)
+			_observers = new HashSet<Observer>();
 		defaultCodecList();
 		defaultConverterList();
 	}
@@ -152,8 +153,10 @@ public class SteGraMage {
 	}
 	
 	private void notifyObservers() {
-		for(Observer obs : _observers)
+		for(Observer obs : _observers) {
 			obs.update(this);
+		}
+			
 	}
 		
 	public static Set<String> getPlugins() {
