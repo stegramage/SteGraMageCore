@@ -14,7 +14,7 @@ public class SteGraMage {
 	private static String _path;
 	private static Set<Class<?>> _plugins;
 	private String _messageUnhided;
-	private Set<Observer> _observers;
+	private static Set<Observer> _observers;
 	
 	public static void loadPlugins(String path) {
 		_path = path;
@@ -48,7 +48,7 @@ public class SteGraMage {
 		return ret;
 	}
 	
-	public SteGraMage() {
+	private SteGraMage() {
 		_observers = new HashSet<Observer>();
 		defaultCodecList();
 		defaultConverterList();
