@@ -11,17 +11,23 @@ public class SteGraMage {
 	private Converter _cc;
 	private Codec _mc;
 	private List<String> _codecList, _converterList;
+	private static String _path;
 	private static Set<Class<?>> _plugins;
 	private String _messageUnhided;
 	private Set<Observer> _observers;
 	
-	public static void configure() {
+	public static void loadPlugins(String path) {
+		_path = path;
+		loadPluginsSet();
+	}
+
+	private static void loadPluginsSet() {
 		Discover dis = new Discover();
 		Set<Class<?>> pCod = new HashSet<Class<?>>(); 
 		Set<Class<?>> pCon = new HashSet<Class<?>>();
 		try {
-			pCod = dis.findClasses("plugins/", Codec.class);
-			pCon = dis.findClasses("plugins/", Converter.class);
+			pCod = dis.findClasses(_path, Codec.class);
+			pCon = dis.findClasses(_path, Converter.class);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -50,18 +56,7 @@ public class SteGraMage {
 	
 	private void configure(List<String> codecList, List<String> converterList) {
 		if (_plugins == null) {
-			Discover dis = new Discover();
-			Set<Class<?>> pCod = new HashSet<Class<?>>(); 
-			Set<Class<?>> pCon = new HashSet<Class<?>>();
-			try {
-				pCod = dis.findClasses("plugins/", Codec.class);
-				pCon = dis.findClasses("plugins/", Converter.class);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-			
-			pCod.addAll(pCon);
-			_plugins = pCod;
+			loadPluginsSet();
 		}
 		
 		if (_cc != null || _mc != null) {

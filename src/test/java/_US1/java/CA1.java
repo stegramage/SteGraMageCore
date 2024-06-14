@@ -10,7 +10,7 @@ class CA1 {
 
 	@Test
 	void notEnoughSpaceTest() {
-		SteGraMage.configure();
+		SteGraMage.loadPlugins("plugins/");
 		SteGraMage st = SteGraMage.defaultInstance();
 		st.setConverter(new MockChannelConverter(2));
 				
