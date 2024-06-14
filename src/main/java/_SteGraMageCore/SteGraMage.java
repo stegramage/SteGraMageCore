@@ -48,7 +48,7 @@ public class SteGraMage {
 		return ret;
 	}
 	
-	private SteGraMage() {
+	public SteGraMage() {
 		_observers = new HashSet<Observer>();
 		defaultCodecList();
 		defaultConverterList();
@@ -156,9 +156,9 @@ public class SteGraMage {
 			obs.update(this);
 	}
 		
-	public static Set<Class<?>> getPlugins() {
-		Set<Class<?>> ret = new HashSet<Class<?>>();
-		ret.addAll(_plugins);
+	public static Set<String> getPlugins() {
+		Set<String> ret = new HashSet<String>();
+		_plugins.forEach(c -> ret.add(c.getName()));;
 		return ret;
 	}
 	

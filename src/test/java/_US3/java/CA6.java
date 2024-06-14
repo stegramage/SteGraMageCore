@@ -35,12 +35,6 @@ class CA6 {
 		order.add("Pase46");
 		
 		Codec codec = cb.buildComponent(order);
-//		Class<?> cls = null;
-//		try {
-//			cls = Class.forName("ASCIIMessageCodec");
-//		} catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//		}
 		
 		assertNull(codec);
 	}

@@ -15,7 +15,6 @@ class CA3 {
 		SteGraMage.loadPlugins("plugins/");
 		SteGraMage st = SteGraMage.defaultInstance();
 		st.setConverter(mch);
-		
 		st.hide("hola", "/path/to/nothig");
 		
 		assertTrue(arrayNotEquals(mch.getChannelIn(), mch.getChannelOut()));
