@@ -31,5 +31,6 @@ class CA7 {
 		
 		assertThrows(UnsupportedOperationException.class, () -> stegramage.unhide("unhide"));
 	}
+	
 
 }
