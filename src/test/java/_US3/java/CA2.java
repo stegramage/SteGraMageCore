@@ -22,7 +22,7 @@ class CA2 {
 		
 		Set<Class<?>> plugins = new HashSet<Class<?>>();
 		try {
-			plugins = dis.findClasses("plugins/codecsMultiples", Codec.class);
+			plugins = dis.findClasses("plugins/codificadoresMultiples", Codec.class);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -38,7 +38,6 @@ class CA2 {
 		try {
 			cls = Class.forName("ROT13");
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

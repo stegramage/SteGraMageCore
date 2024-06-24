@@ -23,7 +23,7 @@ class CA3 {
 		
 		Set<Class<?>> plugins = new HashSet<Class<?>>();
 		try {
-			plugins = dis.findClasses("plugins/codecsMultiples", Codec.class);
+			plugins = dis.findClasses("plugins/codificadoresMultiples", Codec.class);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
