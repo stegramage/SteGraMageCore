@@ -127,6 +127,8 @@ public class SteGraMage {
 	}
 	
 	int[] unhide(char[] channel) {
+		if (channel == null)
+			throw new IllegalArgumentException("El canal no puede ser nulo");
 		int[] b_mensaje = new int[channel.length];
 		
 		for(int i = 0; i < channel.length; i++) {

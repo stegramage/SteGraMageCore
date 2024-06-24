@@ -20,7 +20,7 @@ public class MockChannelConverter implements Converter {
 
 	@Override
 	public char[] channelToIntegers() {
-		return _channel_in.clone();
+		return _channel_in == null ? null : _channel_in.clone();
 	}
 
 	@Override
@@ -46,6 +46,4 @@ public class MockChannelConverter implements Converter {
 		return _channel_out;
 	}
 	
-	
-
 }

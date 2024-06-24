@@ -10,17 +10,27 @@ import resources.MockChannelConverter;
 class CA4 {
 
 	@Test
-	void extractMessageTest() {
-		String msg = "hola";
-		MockChannelConverter mch = new MockChannelConverter(40);
+	void containsAMessageTest() {
+		MockChannelConverter mockChannel = new MockChannelConverter(40);
 		SteGraMage.loadPlugins("plugins/");
-		SteGraMage st = SteGraMage.defaultInstance();
-		st.setConverter(mch);
+		SteGraMage stegramage = SteGraMage.defaultInstance();
+		stegramage.setConverter(mockChannel);
+		stegramage.hide("hola", "/path/to/nothig");
 		
-		st.hide(msg, "/path/to/nothig");
-		st.unhide("unhide");
-		
-		assertEquals(msg, st.getMessageUnhided());
+		assertTrue(arrayNotEquals(mockChannel.getChannelIn(), mockChannel.getChannelOut()));
 	}
+	
+	private boolean arrayNotEquals(char[] expected, char[] obtained) {
+		
+		if (expected.length == obtained.length) {
+			for (int i = 0; i < expected.length; i++) {
+				if (expected[i] != obtained[i])
+					return true;
+			}
+			return false;
+		}
+		return true;
+	}
+
 
 }

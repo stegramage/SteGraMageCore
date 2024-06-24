@@ -10,26 +10,15 @@ import resources.MockChannelConverter;
 class CA3 {
 
 	@Test
-	void containsAMessageTest() {
-		MockChannelConverter mch = new MockChannelConverter(40);
+	void emptyMessageTest() {
+		MockChannelConverter mockChannel = new MockChannelConverter(2);
 		SteGraMage.loadPlugins("plugins/");
-		SteGraMage st = SteGraMage.defaultInstance();
-		st.setConverter(mch);
-		st.hide("hola", "/path/to/nothig");
+		SteGraMage stegramage = SteGraMage.defaultInstance();
+		stegramage.setConverter(mockChannel);
 		
-		assertTrue(arrayNotEquals(mch.getChannelIn(), mch.getChannelOut()));
-	}
-	
-	private boolean arrayNotEquals(char[] expected, char[] obtained) {
+		stegramage.hide("", "/path/to/nothig");
 		
-		if (expected.length == obtained.length) {
-			for (int i = 0; i < expected.length; i++) {
-				if (expected[i] != obtained[i])
-					return true;
-			}
-			return false;
-		}
-		return true;
+		assertArrayEquals(mockChannel.getChannelOut(), mockChannel.getChannelIn());
 	}
 
 }

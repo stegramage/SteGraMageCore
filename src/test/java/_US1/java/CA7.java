@@ -7,16 +7,17 @@ import org.junit.jupiter.api.Test;
 import _SteGraMageCore.SteGraMage;
 import resources.MockChannelConverter;
 
-class CA2 {
+class CA7 {
 
 	@Test
-	void invalidMessageTest() {
+	void extractMessageFromChannelWithoutMessageTest() {
 		MockChannelConverter mockChannel = new MockChannelConverter(40);
 		SteGraMage.loadPlugins("plugins/");
 		SteGraMage stegramage = SteGraMage.defaultInstance();
 		stegramage.setConverter(mockChannel);
+		stegramage.hide("", "/path/to/nothing");
 		
-		assertThrows(IllegalArgumentException.class, () -> stegramage.hide(null, "/path/to/nothig"));
+		assertThrows(UnsupportedOperationException.class, () -> stegramage.unhide("unhide"));
 	}
 
 }
