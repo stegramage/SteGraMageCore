@@ -16,7 +16,7 @@ class CA4 {
 		
 		Set<Class<?>> result = null;
 		try {
-			result = dis.findClasses("plugins/codec", Codec.class);
+			result = dis.findClasses("plugins/codificador", Codec.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

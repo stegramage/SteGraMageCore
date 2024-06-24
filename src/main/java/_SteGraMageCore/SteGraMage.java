@@ -1,107 +1,24 @@
 package _SteGraMageCore;
 
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class SteGraMage {
 
-	private Converter _cc;
-	private Codec _mc;
-	private List<String> _codecList, _converterList;
-	private static String _path;
-	private static Set<Class<?>> _plugins;
+	private Converter _channelConverter;
+	private Codec _messageCodec;
 	private String _messageUnhided;
-	private static Set<Observer> _observers;
-	
-	public static void loadPlugins(String path) {
-		_path = path;
-		loadPluginsSet();
-	}
-
-	private static void loadPluginsSet() {
-		Discover dis = new Discover();
-		Set<Class<?>> pCod = new HashSet<Class<?>>(); 
-		Set<Class<?>> pCon = new HashSet<Class<?>>();
-		try {
-			pCod = dis.findClasses(_path, Codec.class);
-			pCon = dis.findClasses(_path, Converter.class);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		pCod.addAll(pCon);
-		_plugins = pCod;
-	}
-	
-	public static SteGraMage defaultInstance() {
-		SteGraMage ret = new SteGraMage();
-		ret.configure(new ArrayList<String>(), new ArrayList<String>());
-		return ret;
-	}
-	
-	public static SteGraMage createInstance(List<String> codecList) {
-		SteGraMage ret = new SteGraMage();
-		ret.configure(codecList, new ArrayList<String>());
-		return ret;
-	}
-	
-	private SteGraMage() {
-		if (_observers == null)
-			_observers = new HashSet<Observer>();
-		defaultCodecList();
-		defaultConverterList();
-	}
-	
-	private void configure(List<String> codecList, List<String> converterList) {
-		if (_plugins == null) {
-			loadPluginsSet();
-		}
-		
-		if (_cc != null || _mc != null) {
-			defaultCodecList();
-			defaultConverterList();
-		}
-		
-		addCodecDecoratorsToList(codecList);
-		addConverterDecoratorsToList(converterList);
-		
-		DecoratorBuilder<Codec> codecBuilder = new DecoratorBuilder<Codec>(_plugins);
-		DecoratorBuilder<Converter> converterBuilder = new DecoratorBuilder<Converter>(_plugins);
-		
-		_cc = converterBuilder.buildComponent(_converterList);
-		_mc = codecBuilder.buildComponent(_codecList);
-	}
-	
-	private void addConverterDecoratorsToList(List<String> decoratorsList) {
-		addDecoratorsToList(_converterList, decoratorsList);
-	}
-
-	private void addDecoratorsToList(List<String> components, List<String> decorators) {
-		components.addAll(decorators);		
-	}
-
-	private void addCodecDecoratorsToList(List<String> decoratorsList) {
-		addDecoratorsToList(_codecList, decoratorsList);		
-	}
-
-	private void defaultCodecList() {
-		_converterList = new ArrayList<String>();
-		_converterList.add("_SteGraMageCore.ChannelConverter");
-	}
-
-	private void defaultConverterList() {
-		_codecList = new ArrayList<String>();
-		_codecList.add("_SteGraMageCore.ASCIIMessageCodec");
+	private Set<Observer> _observers;
+			
+	public SteGraMage() {
+		_observers = new HashSet<Observer>();
 	}
 	
 	public void hide(String message, String channel) {
-		_cc.openChannel(channel);
-		char[] aux = hide(_mc.encodeMessage(message), _cc.channelToIntegers());
-		_cc.integersToChannel(aux);
-		_cc.saveChannel(channel);
+		_channelConverter.openChannel(channel);
+		char[] aux = hide(_messageCodec.encodeMessage(message), _channelConverter.channelToIntegers());
+		_channelConverter.integersToChannel(aux);
+		_channelConverter.saveChannel(channel);
 		notifyObservers();
 	}
 	
@@ -120,9 +37,9 @@ public class SteGraMage {
 	}
 	
 	public void unhide(String channel) {
-		_cc.openChannel(channel);
-		int[] aux = unhide(_cc.channelToIntegers());
-		_messageUnhided = _mc.decodeChannel(aux);
+		_channelConverter.openChannel(channel);
+		int[] aux = unhide(_channelConverter.channelToIntegers());
+		_messageUnhided = _messageCodec.decodeChannel(aux);
 		notifyObservers();
 	}
 	
@@ -160,15 +77,19 @@ public class SteGraMage {
 		}
 			
 	}
-		
-	public static Set<String> getPlugins() {
-		Set<String> ret = new HashSet<String>();
-		_plugins.forEach(c -> ret.add(c.getName()));;
-		return ret;
-	}
+//		
+//	public static Set<String> getPlugins() {
+//		Set<String> ret = new HashSet<String>();
+//		_plugins.forEach(c -> ret.add(c.getName()));;
+//		return ret;
+//	}
 	
 	public void setConverter(Converter c) {
-		_cc = c;
+		_channelConverter = c;
+	}
+	
+	public void setCodec(Codec c) {
+		_messageCodec = c;
 	}
 
 }

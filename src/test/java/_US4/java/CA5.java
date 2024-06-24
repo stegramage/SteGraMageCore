@@ -7,6 +7,10 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import _SteGraMageCore.ASCIIMessageCodec;
+import _SteGraMageCore.ChannelConverter;
+import _SteGraMageCore.Configurator;
+import _SteGraMageCore.PluginsLoader;
 import _SteGraMageCore.SteGraMage;
 import resources.MockChannelConverter;
 
@@ -14,19 +18,23 @@ class CA5 {
 
 	@Test
 	void hideMessageWithBase64ROT13DecoratorsTest() {
-		String msg = "hola";
-		List<String> plugins = new ArrayList<String>();
-		plugins.add("Base64");
-		plugins.add("ROT13");
-		MockChannelConverter mch = new MockChannelConverter(240);
-		SteGraMage.loadPlugins("plugins/");
-		SteGraMage st = SteGraMage.createInstance(plugins);
-		st.setConverter(mch);
+		String message = "hola";
+		MockChannelConverter mockChannel = new MockChannelConverter(240);
+		PluginsLoader loader = new PluginsLoader("plugins/");
+		SteGraMage stegramage = new SteGraMage();
+		List<String> codecs = new ArrayList<String>();
+		List<String> converters = new ArrayList<String>();
+		codecs.add(ASCIIMessageCodec.class.getName());
+		codecs.add("Base64");
+		codecs.add("ROT13");
+		converters.add(ChannelConverter.class.getName());
+		Configurator.configure(stegramage, loader.getPlugins(), codecs, converters);
+		stegramage.setConverter(mockChannel);
 		
-		st.hide(msg, "/path/to/nothig");
-		st.unhide("unhide");
+		stegramage.hide(message, "/path/to/nothig");
+		stegramage.unhide("unhide");
 		
-		assertEquals(msg + ":ROT13::Base64:", st.getMessageUnhided());
+		assertEquals(message + ":ROT13::Base64:", stegramage.getMessageUnhided());
 	}
 
 }

@@ -16,7 +16,7 @@ class CA5 {
 		
 		Set<Class<?>> result = null;
 		try {
-			result = dis.findClasses("plugins/codecsMultiples", Codec.class);
+			result = dis.findClasses("plugins/codificadoresMultiples", Codec.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
