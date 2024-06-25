@@ -2,10 +2,12 @@ package _SteGraMageCore;
 
 import java.util.ArrayList;
 
-public class ASCIIMessageInterpreter implements Interpreter {
+public class ASCIIMessageCodec implements Codec {
 	
 	@Override
-	public int[] interpretMessage(String message) {
+	public int[] encodeMessage(String message) {
+		if (message == null)
+			throw new IllegalArgumentException("El mensaje no puede ser nulo");
 		if(message.equals(""))
 			return new int[0];
 		
@@ -14,7 +16,7 @@ public class ASCIIMessageInterpreter implements Interpreter {
 		for(int i = 0; i < aux.length; i++)	
 			temp[i] = aux[i];
 		
-		temp[aux.length] = 0xff;
+		temp[aux.length] = 0x04; // 0x04 = EOT End Of Transmission
 		
 		int[] ret = new int[temp.length * 8];
 				
@@ -33,11 +35,17 @@ public class ASCIIMessageInterpreter implements Interpreter {
 	}
 	
 	@Override
-	public String interpretChannel(int[] channel) {
+	public String decodeChannel(int[] channel) {
+		if (channel.length == 0)
+			return "";
+		
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		char[] chars;
 		
 		for(int i = 0; i < channel.length; i+=8) {
+			if (i + 8 > channel.length)
+				throw new UnsupportedOperationException("No se encontro un mensaje en el canal");
+			
 			int[] aux = new int[8];
 			aux[0] = channel[i + 0];
 			aux[1] = channel[i + 1];
@@ -49,15 +57,17 @@ public class ASCIIMessageInterpreter implements Interpreter {
 			aux[7] = channel[i + 7];
 					
 			int character = joinBits(aux);
-						
-			if((character == 0xff)) {
+			
+			temp.add(character);
+			
+			if((character == 0x04))  // 0x04 = EOT End Of Transmission
 				break;
-			}
-			else {
-				temp.add(character);
-			}
 		}
-		chars = new char[temp.size()];
+		
+		if (temp.get(temp.size()-1) != 0x04)
+			throw new UnsupportedOperationException("No se encontro un mensaje en el canal");
+		
+		chars = new char[temp.size() - 1];
 		for(int i = 0; i < chars.length; i++)
 			chars[i] = (char) ((int) temp.get(i));
 			

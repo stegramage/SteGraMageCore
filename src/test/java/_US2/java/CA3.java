@@ -7,17 +7,17 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import _SteGraMageCore.Discover;
-import _SteGraMageCore.Interpreter;
+import _SteGraMageCore.Codec;
 
 class CA3 {
 
 	@Test
-	void isNotInterpreterTest() {
-Discover dis = new Discover();
+	void isNotCodecTest() {
+		Discover dis = new Discover();
 		
-		Set<Interpreter> result = null;
+		Set<Class<?>> result = null;
 		try {
-			result = dis.findClasses("plugins/noEsInterprete");
+			result = dis.findClasses("plugins/noEsCodificador", Codec.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

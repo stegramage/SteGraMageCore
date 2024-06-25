@@ -7,27 +7,19 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class MokingConverter implements Converter {
+public class ChannelConverter implements Converter {
 
 	private String _channel;
 	
 		
 	@Override
-	public int[] channelToIntegers() {
-		int[] ret = new int[_channel.length()];
-		for (int i = 0; i < _channel.length(); i++) {
-			ret[i] = (int) _channel.charAt(i);
-		}
-		return ret;
+	public char[] channelToIntegers() {
+		return _channel.toCharArray();
 	}
 
 	@Override
-	public void integersToChannel(int[] channel) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < channel.length; i++) {
-			sb.append(Character.toChars(channel[i]));
-		}
-		_channel = sb.toString();
+	public void integersToChannel(char[] channel) {
+		_channel = String.copyValueOf(channel);
 	}
 
 	@Override

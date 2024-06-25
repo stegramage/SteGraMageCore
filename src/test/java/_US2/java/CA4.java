@@ -4,24 +4,24 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import _SteGraMageCore.Codec;
 import _SteGraMageCore.Discover;
-import _SteGraMageCore.Interpreter;
 import resources.Assert;
 
 class CA4 {
 
 	@Test
-	void oneInterpreterTest() {
+	void oneCodecTest() {
 		Discover dis = new Discover();
 		
-		Set<Interpreter> result = null;
+		Set<Class<?>> result = null;
 		try {
-			result = dis.findClasses("plugins/interprete");
+			result = dis.findClasses("plugins/codificador", Codec.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		String[] expected = {"_rot13.ROT13"};
+		String[] expected = {"ROT13"};
 		
 		Assert.equals(expected, result);
 	}

@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 
 import org.junit.jupiter.api.Test;
 
+import _SteGraMageCore.Codec;
 import _SteGraMageCore.Discover;
 
 class CA1 {
@@ -13,7 +14,7 @@ class CA1 {
 	@Test
 	void fileNotExistTest() {
 		Discover dis = new Discover();
-		assertThrows(FileNotFoundException.class, () -> dis.findClasses("/path/to/nothig"));
+		assertThrows(FileNotFoundException.class, () -> dis.findClasses("/path/to/nothig", Codec.class));
 	}
 
 }

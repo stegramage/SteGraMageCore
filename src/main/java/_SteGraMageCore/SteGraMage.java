@@ -5,44 +5,47 @@ import java.util.Set;
 
 public class SteGraMage {
 
-	private Converter _cc;
-	private Interpreter _mi;
+	private Converter _channelConverter;
+	private Codec _messageCodec;
 	private String _messageUnhided;
 	private Set<Observer> _observers;
-	
+			
 	public SteGraMage() {
 		_observers = new HashSet<Observer>();
 	}
 	
 	public void hide(String message, String channel) {
-		_cc.openChannel(channel);
-		int[] aux = hide(_mi.interpretMessage(message), _cc.channelToIntegers());
-		_cc.integersToChannel(aux);
-		_cc.saveChannel(channel);
+		_channelConverter.openChannel(channel);
+		char[] aux = hide(_messageCodec.encodeMessage(message), _channelConverter.channelToIntegers());
+		_channelConverter.integersToChannel(aux);
+		_channelConverter.saveChannel(channel);
 		notifyObservers();
 	}
 	
-	int[] hide(int[] message, int[] channel) {
-		if(message.length > channel.length)
+	char[] hide(int[] message, char[] channel) {
+		if(message.length > channel.length * 8)
 			throw new IllegalArgumentException();
 		
 		for (int i = 0; i < message.length; i++) {
-			 channel[i] = (channel[i] >>> 1);
-			 channel[i] = (channel[i] << 1);
-			 channel[i] = (channel[i] ^ message[i]);
+			if (message[i] == 1)
+				channel[i] = Character.toUpperCase(channel[i]);
+			else
+				channel[i] = Character.toLowerCase(channel[i]);
 		}
 		
 		return channel;
 	}
 	
 	public void unhide(String channel) {
-		_cc.openChannel(channel);
-		int[] aux = unhide(_cc.channelToIntegers());
-		_messageUnhided = _mi.interpretChannel(aux);
+		_channelConverter.openChannel(channel);
+		int[] aux = unhide(_channelConverter.channelToIntegers());
+		_messageUnhided = _messageCodec.decodeChannel(aux);
 		notifyObservers();
 	}
 	
-	int[] unhide(int[] channel) {
+	int[] unhide(char[] channel) {
+		if (channel == null)
+			throw new IllegalArgumentException("El canal no puede ser nulo");
 		int[] b_mensaje = new int[channel.length];
 		
 		for(int i = 0; i < channel.length; i++) {
@@ -52,8 +55,8 @@ public class SteGraMage {
 		return b_mensaje;
 	}
 	
-	private int extractBit(int chanel) {
-		return chanel & 0x00000001;
+	private int extractBit(char channel) {
+		return Character.isUpperCase(channel) ? 1 : 0;
 	}
 
 	public String getMessageUnhided() {
@@ -69,20 +72,24 @@ public class SteGraMage {
 	}
 	
 	private void notifyObservers() {
-		for(Observer obs : _observers)
+		for(Observer obs : _observers) {
 			obs.update(this);
+		}
+			
 	}
-		
-	public void setConverter(Converter cc) {
-		_cc = cc;
-	}
-
-	public void setInterpreter(Interpreter mi) {
-		_mi = mi;
+//		
+//	public static Set<String> getPlugins() {
+//		Set<String> ret = new HashSet<String>();
+//		_plugins.forEach(c -> ret.add(c.getName()));;
+//		return ret;
+//	}
+	
+	public void setConverter(Converter c) {
+		_channelConverter = c;
 	}
 	
-	public void configure(Converter c, Interpreter i) {
-		_cc = c;
-		_mi = i;
+	public void setCodec(Codec c) {
+		_messageCodec = c;
 	}
+
 }

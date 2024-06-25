@@ -5,15 +5,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashSet;
 import java.util.Set;
 
-import _SteGraMageCore.Interpreter;
 
 public class Assert {
 	
-	public static void equals (String[] expected, Set<Interpreter> obtained) {
+	public static void equals (String[] expected, Set<Class<?>> obtained) {
 		assertEquals(expected.length, obtained.size());
 		Set<String> names = new HashSet<String>();
-		for (Interpreter o : obtained) {
-			names.add(o.getClass().getName());
+		for (Class<?> o : obtained) {
+			names.add(o.getName());
 		}
 		
 		for (String name : expected) {

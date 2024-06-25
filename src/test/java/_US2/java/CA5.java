@@ -4,24 +4,24 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import _SteGraMageCore.Codec;
 import _SteGraMageCore.Discover;
-import _SteGraMageCore.Interpreter;
 import resources.Assert;
 
 class CA5 {
 
 	@Test
-	void multiInterpreterTest() {
-Discover dis = new Discover();
+	void multiCodecTest() {
+		Discover dis = new Discover();
 		
-		Set<Interpreter> result = null;
+		Set<Class<?>> result = null;
 		try {
-			result = dis.findClasses("plugins/interpretesMultiples");
+			result = dis.findClasses("plugins/codificadoresMultiples", Codec.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		String[] expected = {"_rot13.ROT13", "_base64.Base64"};
+		String[] expected = {"ROT13", "Base64"};
 		
 		Assert.equals(expected, result);
 	}
