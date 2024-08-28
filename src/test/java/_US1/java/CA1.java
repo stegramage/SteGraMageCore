@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import _SteGraMageCore.PluginsLoader;
 import _SteGraMageCore.SteGraMage;
-import _SteGraMageCore.ASCIIMessageCodec;
+import _SteGraMageCore.ASCIICodec;
 import _SteGraMageCore.ChannelConverter;
 import _SteGraMageCore.Configurator;
 import resources.MockChannelConverter;
@@ -22,7 +22,7 @@ class CA1 {
 		SteGraMage stegramage = new SteGraMage();
 		List<String> codecs = new ArrayList<String>();
 		List<String> converters = new ArrayList<String>();
-		codecs.add(ASCIIMessageCodec.class.getName());
+		codecs.add(ASCIICodec.class.getName());
 		converters.add(ChannelConverter.class.getName());
 		Configurator.configure(stegramage, loader.getPlugins(), codecs, converters);
 		stegramage.setConverter(new MockChannelConverter(2));

@@ -10,7 +10,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
-import _SteGraMageCore.ASCIIMessageCodec;
+import _SteGraMageCore.ASCIICodec;
 import _SteGraMageCore.Codec;
 import _SteGraMageCore.DecoratorBuilder;
 import _SteGraMageCore.Discover;
@@ -35,7 +35,7 @@ class CA1 {
 		
 		Codec codec = cb.buildComponent(order);
 		
-		assertTrue(codec instanceof ASCIIMessageCodec);
+		assertTrue(codec instanceof ASCIICodec);
 	}
 
 }

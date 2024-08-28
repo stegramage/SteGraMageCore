@@ -1,24 +1,26 @@
 package _SteGraMageCore;
 
-public abstract class CodecDecorator implements Codec {
+import java.util.List;
 
-	private Codec _wrappee;
+public abstract class CodecDecorator<T> implements Codec<T> {
+
+	private Codec<T> _wrappee;
 	
-	public CodecDecorator (Codec codec) {
+	public CodecDecorator (Codec<T> codec) {
 		_wrappee = codec;
 	}
 	
 	@Override
-	public int[] encodeMessage(String message) {
-		return _wrappee.encodeMessage(message);
+	public List<Integer> encode(T message) {
+		return _wrappee.encode(message);
 	}
 
 	@Override
-	public String decodeChannel(int[] channel) {
-		return _wrappee.decodeChannel(channel);
+	public T decode(List<Integer> channel) {
+		return _wrappee.decode(channel);
 	}
 	
-	public Codec getCodec() {
+	public Codec<T> getCodec() {
 		return _wrappee;
 	}
 

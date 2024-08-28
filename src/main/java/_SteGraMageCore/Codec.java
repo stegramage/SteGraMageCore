@@ -1,9 +1,11 @@
 package _SteGraMageCore;
 
-public interface Codec {
+import java.util.List;
 
-	public int[] encodeMessage(String message);
+public interface Codec<T> {
+
+	public List<Integer> encode(T data);
 	
-	public String decodeChannel(int[] channel);
+	public T decode(List<Integer> data);
 	
 }

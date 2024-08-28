@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import _SteGraMageCore.ASCIIMessageCodec;
+import _SteGraMageCore.ASCIICodec;
 import _SteGraMageCore.ChannelConverter;
 import _SteGraMageCore.Configurator;
 import _SteGraMageCore.PluginsLoader;
@@ -24,7 +24,7 @@ class CA2 {
 		SteGraMage stegramage = new SteGraMage();
 		List<String> codecs = new ArrayList<String>();
 		List<String> converters = new ArrayList<String>();
-		codecs.add(ASCIIMessageCodec.class.getName());
+		codecs.add(ASCIICodec.class.getName());
 		codecs.add("ROT13");
 		converters.add(ChannelConverter.class.getName());
 		Configurator.configure(stegramage, loader.getPlugins(), codecs, converters);
