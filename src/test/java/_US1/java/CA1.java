@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Test;
 
 import _SteGraMageCore.PluginsLoader;
 import _SteGraMageCore.SteGraMage;
-import _SteGraMageCore.ASCIICodec;
-import _SteGraMageCore.ChannelConverter;
+import _SteGraMageCore.MessageASCIICodec;
+import _SteGraMageCore.TXTChannelCodec;
 import _SteGraMageCore.Configurator;
-import resources.MockChannelConverter;
+import resources.MockChannelCodec;
 
 class CA1 {
 
@@ -22,10 +22,10 @@ class CA1 {
 		SteGraMage stegramage = new SteGraMage();
 		List<String> codecs = new ArrayList<String>();
 		List<String> converters = new ArrayList<String>();
-		codecs.add(ASCIICodec.class.getName());
-		converters.add(ChannelConverter.class.getName());
+		codecs.add(MessageASCIICodec.class.getName());
+		converters.add(TXTChannelCodec.class.getName());
 		Configurator.configure(stegramage, loader.getPlugins(), codecs, converters);
-		stegramage.setConverter(new MockChannelConverter(2));
+		stegramage.setChannelCodec(new MockChannelCodec(2));
 				
 		assertThrows(IllegalArgumentException.class, () -> stegramage.hide("hola", "/path/to/nothig"));
 	}

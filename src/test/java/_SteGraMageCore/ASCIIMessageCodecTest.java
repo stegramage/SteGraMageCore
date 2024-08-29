@@ -11,7 +11,7 @@ class ASCIIMessageCodecTest {
 
 	@Test
 	public void interpretMessageTest() {
-		Codec<String> msgInterp = new ASCIICodec();
+		Codec<String> msgInterp = new MessageASCIICodec();
 		
 		List<Integer> actual = msgInterp.encode("H");
 		int[] expected = {0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00};
@@ -22,7 +22,7 @@ class ASCIIMessageCodecTest {
 
 	@Test
 	public void interpretMessageEmptyTest() {
-		Codec<String> msgInterp = new ASCIICodec();
+		Codec<String> msgInterp = new MessageASCIICodec();
 		
 		List<Integer> actual = msgInterp.encode("");
 		int[] expected = {};
@@ -33,7 +33,7 @@ class ASCIIMessageCodecTest {
 	
 	@Test
 	public void interpretBytesTest() {
-		Codec<String> msgInterp = new ASCIICodec();
+		Codec<String> msgInterp = new MessageASCIICodec();
 		int[] channel = {0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00};
 		String actual = msgInterp.decode(toList(channel));
 		String expected = "H";
@@ -43,7 +43,7 @@ class ASCIIMessageCodecTest {
 	
 	@Test
 	public void interpretBytesEmptyTest() {
-		Codec<String> msgInterp = new ASCIICodec();
+		Codec<String> msgInterp = new MessageASCIICodec();
 		int[] channel = new int[0];
 		String actual = msgInterp.decode(toList(channel));
 		String expected = "";

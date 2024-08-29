@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Set;
 
-public class DecoratorBuilder<T>{
+public class DecoratorBuilder<T> {
 	
 	private Set<Class<?>> _plugins;
 	private Class<?> _iface;

@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Set;
 
 public class SteGraMage {
+	private final int CHANNEL_MESSAGE_RATIO = 8;
+	private final int HIDE_MASK = 1;
+	private final int UNHIDE_MASK = 0x00000001;
 
-	private Converter _channelConverter;
+	private Codec<String> _channelConverter;
 	private Codec<String> _messageCodec;
 	private String _messageUnhided;
 	private Set<Observer> _observers;
@@ -17,48 +20,50 @@ public class SteGraMage {
 	}
 	
 	public void hide(String message, String channel) {
-		_channelConverter.openChannel(channel);
-		char[] aux = hide(_messageCodec.encode(message), _channelConverter.channelToIntegers());
-		_channelConverter.integersToChannel(aux);
-		_channelConverter.saveChannel(channel);
+		List<Integer> aux = hide(_messageCodec.encode(message), _channelConverter.encode(channel));
+		_channelConverter.decode(aux);
 		notifyObservers();
 	}
 	
-	char[] hide(List<Integer> message, char[] channel) {
-		if(message.size() > channel.length * 8)
+	List<Integer> hide(List<Integer> message, List<Integer> channel) {
+		if(message.size() > channel.size() * CHANNEL_MESSAGE_RATIO)
 			throw new IllegalArgumentException();
 		
+		int chanAux, msgAux;
 		for (int i = 0; i < message.size(); i++) {
-			if (message.get(i) == 1)
-				channel[i] = Character.toUpperCase(channel[i]);
-			else
-				channel[i] = Character.toLowerCase(channel[i]);
+			chanAux = channel.get(i);
+			msgAux = message.get(i);
+			
+			chanAux = (chanAux >>> HIDE_MASK);
+			chanAux = (chanAux << HIDE_MASK);
+			chanAux = (chanAux ^ msgAux);
+			
+			channel.set(i, chanAux);
 		}
 		
 		return channel;
 	}
 	
 	public void unhide(String channel) {
-		_channelConverter.openChannel(channel);
-		List<Integer> aux = unhide(_channelConverter.channelToIntegers());
+		List<Integer> aux = unhide(_channelConverter.encode(channel));
 		_messageUnhided = _messageCodec.decode(aux);
 		notifyObservers();
 	}
 	
-	List<Integer> unhide(char[] channel) {
+	List<Integer> unhide(List<Integer> channel) {
 		if (channel == null)
 			throw new IllegalArgumentException("El canal no puede ser nulo");
-		List<Integer> b_mensaje = new ArrayList<Integer>(channel.length);
+		List<Integer> b_mensaje = new ArrayList<Integer>(channel.size());
 		
-		for(int i = 0; i < channel.length; i++) {
-			b_mensaje.set(i, extractBit(channel[i])); 	
+		for(int i = 0; i < channel.size(); i++) {
+			b_mensaje.set(i, extractBit(channel.get(i))); 	
 		}
 		
 		return b_mensaje;
 	}
 	
-	private int extractBit(char channel) {
-		return Character.isUpperCase(channel) ? 1 : 0;
+	private int extractBit(int channel) {
+		return channel & UNHIDE_MASK;
 	}
 
 	public String getMessageUnhided() {
@@ -86,11 +91,11 @@ public class SteGraMage {
 //		return ret;
 //	}
 	
-	public void setConverter(Converter c) {
-		_channelConverter = c;
+	public void setChannelCodec(Codec<String> c) {
+		_messageCodec = c;
 	}
 	
-	public void setCodec(Codec<String> c) {
+	public void setMessageCodec(Codec<String> c) {
 		_messageCodec = c;
 	}
 

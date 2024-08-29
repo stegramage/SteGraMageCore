@@ -3,7 +3,7 @@ package _SteGraMageCore;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ASCIICodec implements Codec<String> {
+public class MessageASCIICodec implements Codec<String> {
 	
 	@Override
 	public List<Integer> encode(String message) {
