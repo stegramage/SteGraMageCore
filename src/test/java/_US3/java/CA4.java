@@ -27,11 +27,11 @@ class CA4 {
 			e.printStackTrace();
 		}
 		
-		DecoratorBuilder<Codec> cb = new DecoratorBuilder<Codec>(plugins);
+		DecoratorBuilder<Codec<String>> cb = new DecoratorBuilder<Codec<String>>(plugins);
 		
 		List<String> order = new ArrayList<String>();
 		
-		Codec codec = cb.buildComponent(order);
+		Codec<String> codec = cb.buildComponent(order);
 		
 		assertNull(codec);
 	}

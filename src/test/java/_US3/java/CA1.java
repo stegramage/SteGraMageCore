@@ -28,12 +28,12 @@ class CA1 {
 			e.printStackTrace();
 		}
 		
-		DecoratorBuilder<Codec> cb = new DecoratorBuilder<Codec>(plugins);
+		DecoratorBuilder<Codec<String>> cb = new DecoratorBuilder<Codec<String>>(plugins);
 		
 		List<String> order = new ArrayList<String>();
 		order.add("_SteGraMageCore.ASCIIMessageCodec");
 		
-		Codec codec = cb.buildComponent(order);
+		Codec<String> codec = cb.buildComponent(order);
 		
 		assertTrue(codec instanceof MessageASCIICodec);
 	}

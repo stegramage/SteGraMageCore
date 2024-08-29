@@ -28,14 +28,14 @@ class CA3 {
 			e.printStackTrace();
 		}
 		
-		DecoratorBuilder<Codec> cb = new DecoratorBuilder<Codec>(plugins);
+		DecoratorBuilder<Codec<String>> cb = new DecoratorBuilder<Codec<String>>(plugins);
 		
 		List<String> order = new ArrayList<String>();
 		order.add("_SteGraMageCore.ASCIIMessageCodec");
 		order.add("ROT13");
 		order.add("Base64");
 		
-		Codec codec = cb.buildComponent(order);
+		Codec<String> codec = cb.buildComponent(order);
 		Class<?>[] cls = new Class<?>[2];
 		try {
 			cls[1] = Class.forName("ROT13");
@@ -48,11 +48,11 @@ class CA3 {
 		assertEqualsClasses(cls, codec);
 	}
 
-	private void assertEqualsClasses(Class<?>[] cls, Codec codec) {
+	private void assertEqualsClasses(Class<?>[] cls, Codec<String> codec) {
 		for (Class<?> c : cls) {
 			assertEquals(c, codec.getClass());
 			if (CodecDecorator.class.isAssignableFrom(codec.getClass())) 
-				codec = ((CodecDecorator) codec).getCodec();
+				codec = ((CodecDecorator<String>) codec).getCodec();
 		}
 	}
 

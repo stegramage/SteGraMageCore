@@ -27,14 +27,14 @@ class CA5 {
 			e.printStackTrace();
 		}
 		
-		DecoratorBuilder<Codec> cb = new DecoratorBuilder<Codec>(plugins);
+		DecoratorBuilder<Codec<String>> cb = new DecoratorBuilder<Codec<String>>(plugins);
 		
 		List<String> order = new ArrayList<String>();
 		order.add("_SteGraMageCore.ASCIIMessageCodec");
 		order.add("BOT31");
 		order.add("Pase46");
 		
-		Codec codec = cb.buildComponent(order);
+		Codec<String> codec = cb.buildComponent(order);
 		
 		Class<?> cls = null;
 		try {
