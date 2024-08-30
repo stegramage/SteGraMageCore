@@ -3,11 +3,11 @@ package _SteGraMageCore;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SteGraMage {
+public class SteGraMage<T> {
 	
-	private Codec<String> _channelCodec;
-	private Codec<String> _messageCodec;
-	private String _messageUnhided;
+	private Codec<T> _channelCodec;
+	private Codec<T> _messageCodec;
+	private T _messageUnhided;
 	private Steganographer _st;
 	private Set<Observer> _observers;
 			
@@ -16,7 +16,7 @@ public class SteGraMage {
 		_observers = new HashSet<Observer>();
 	}
 	
-	public void hide(String message, String channel) {
+	public void hide(T message, T channel) {
 		_channelCodec.decode(
 				_st.hide(_messageCodec.encode(message),
 						_channelCodec.encode(channel))
@@ -24,19 +24,19 @@ public class SteGraMage {
 		notifyObservers();
 	}
 		
-	public void unhide(String channel) {
+	public void unhide(T channel) {
 		_messageUnhided = _messageCodec.decode(
 				_st.unhide(_channelCodec.encode(channel))
 		);
 		notifyObservers();
 	}
 	
-	public String getMessageUnhided() {
+	public T getMessageUnhided() {
 		return _messageUnhided;
 	}
 	
 	public void clearMessageUnhided() {
-		_messageUnhided = "";
+		_messageUnhided = null;
 	}
 	
 	public void register(Observer obs) {
@@ -50,11 +50,11 @@ public class SteGraMage {
 			
 	}
 	
-	public void setChannelCodec(Codec<String> c) {
-		_messageCodec = c;
+	public void setChannelCodec(Codec<T> c) {
+		_channelCodec = c;
 	}
 	
-	public void setMessageCodec(Codec<String> c) {
+	public void setMessageCodec(Codec<T> c) {
 		_messageCodec = c;
 	}
 

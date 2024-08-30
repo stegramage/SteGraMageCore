@@ -3,7 +3,7 @@ package _SteGraMageCore;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Steganographer {
+class Steganographer {
 	private final int CHANNEL_MESSAGE_RATIO = 8;
 	private final int HIDE_MASK = 1;
 	private final int UNHIDE_MASK = 0x00000001;
@@ -33,7 +33,7 @@ public class Steganographer {
 		List<Integer> b_mensaje = new ArrayList<Integer>(channel.size());
 		
 		for(int i = 0; i < channel.size(); i++) {
-			b_mensaje.set(i, extractBit(channel.get(i))); 	
+			b_mensaje.add(extractBit(channel.get(i))); 	
 		}
 		
 		return b_mensaje;

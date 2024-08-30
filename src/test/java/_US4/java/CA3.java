@@ -21,7 +21,7 @@ class CA3 {
 		String message = "hola";
 		MockChannelCodec mockChannel = new MockChannelCodec(240);
 		PluginsLoader loader = new PluginsLoader("plugins/");
-		SteGraMage stegramage = new SteGraMage();
+		SteGraMage<String> stegramage = new SteGraMage<String>();
 		List<String> codecs = new ArrayList<String>();
 		List<String> converters = new ArrayList<String>();
 		codecs.add(MessageASCIICodec.class.getName());
