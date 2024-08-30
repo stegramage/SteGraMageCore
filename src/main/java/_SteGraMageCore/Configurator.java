@@ -5,14 +5,14 @@ import java.util.Set;
 
 public class Configurator {
 	
-	public static <T> void configure(SteGraMage<T> st, Set<Class<?>> plugins, List<String> messageCodecList, List<String> channelCodecList) {
+	public static <M,C> void configure(SteGraMage<M,C> st, Set<Class<?>> plugins, List<String> messageCodecList, List<String> channelCodecList) {
 		
-		DecoratorBuilder<Codec<T>> messageCodecBuilder = new DecoratorBuilder<Codec<T>>(plugins);
-		DecoratorBuilder<Codec<T>> channelCodecBuilder = new DecoratorBuilder<Codec<T>>(plugins);
+		DecoratorBuilder<Codec<M>> messageCodecBuilder = new DecoratorBuilder<Codec<M>>(plugins);
+		DecoratorBuilder<Codec<C>> channelCodecBuilder = new DecoratorBuilder<Codec<C>>(plugins);
 		
 		
-		Codec<T> messageCodec = messageCodecBuilder.buildComponent(messageCodecList);
-		Codec<T> channelCodec = channelCodecBuilder.buildComponent(channelCodecList);
+		Codec<M> messageCodec = messageCodecBuilder.buildComponent(messageCodecList);
+		Codec<C> channelCodec = channelCodecBuilder.buildComponent(channelCodecList);
 		
 		st.setChannelCodec(channelCodec);
 		st.setMessageCodec(messageCodec);

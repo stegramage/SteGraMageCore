@@ -2,5 +2,5 @@ package _SteGraMageCore;
 
 public interface Observer {
 
-	public <T> void update(SteGraMage<T> st);
+	public <M,C> void update(SteGraMage<M,C> st);
 }
