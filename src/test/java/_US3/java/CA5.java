@@ -30,7 +30,7 @@ class CA5 {
 		DecoratorBuilder<Codec<String>> cb = new DecoratorBuilder<Codec<String>>(plugins);
 		
 		List<String> order = new ArrayList<String>();
-		order.add("_SteGraMageCore.ASCIIMessageCodec");
+		order.add("_SteGraMageCore.MessageASCIICodec");
 		order.add("BOT31");
 		order.add("Pase46");
 		
@@ -38,7 +38,7 @@ class CA5 {
 		
 		Class<?> cls = null;
 		try {
-			cls = Class.forName("_SteGraMageCore.ASCIIMessageCodec");
+			cls = Class.forName("_SteGraMageCore.MessageASCIICodec");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}

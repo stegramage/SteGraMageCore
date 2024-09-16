@@ -31,7 +31,7 @@ class CA3 {
 		DecoratorBuilder<Codec<String>> cb = new DecoratorBuilder<Codec<String>>(plugins);
 		
 		List<String> order = new ArrayList<String>();
-		order.add("_SteGraMageCore.ASCIIMessageCodec");
+		order.add("_SteGraMageCore.MessageASCIICodec");
 		order.add("ROT13");
 		order.add("Base64");
 		
