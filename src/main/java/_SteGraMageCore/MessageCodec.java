@@ -3,14 +3,14 @@ package _SteGraMageCore;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageASCIICodec implements Codec<String> {
+public class MessageCodec implements Encoder<String>, Decoder<String> {
 	
 	@Override
-	public List<Integer> encode(String message) {
+	public Data encode(String message) {
 		if (message == null)
 			throw new IllegalArgumentException("El mensaje no puede ser nulo");
-		if(message.equals(""))
-			return new ArrayList<Integer>();
+		if(message.isEmpty())
+			return new Data();
 		
 		char[] aux = message.toCharArray();
 		int[] temp = new int[aux.length + 1];
@@ -20,23 +20,26 @@ public class MessageASCIICodec implements Codec<String> {
 		temp[aux.length] = 0x04; // 0x04 = EOT End Of Transmission
 		
 		List<Integer> ret = new ArrayList<Integer>(temp.length * 8);
-				
-		for(int i = 0; i < temp.length; i++) {
-			ret.add((temp[i] & 0x01) >>> 0);
-			ret.add((temp[i] & 0x02) >>> 1);
-			ret.add((temp[i] & 0x04) >>> 2);
-			ret.add((temp[i] & 0x08) >>> 3);
-			ret.add((temp[i] & 0x10) >>> 4);
-			ret.add((temp[i] & 0x20) >>> 5);
-			ret.add((temp[i] & 0x40) >>> 6);
-			ret.add((temp[i] & 0x80) >>> 7);
-		}
-				
-		return ret;	
+
+        for (int j : temp) {
+            ret.add((j & 0x01) >>> 0);
+            ret.add((j & 0x02) >>> 1);
+            ret.add((j & 0x04) >>> 2);
+            ret.add((j & 0x08) >>> 3);
+            ret.add((j & 0x10) >>> 4);
+            ret.add((j & 0x20) >>> 5);
+            ret.add((j & 0x40) >>> 6);
+            ret.add((j & 0x80) >>> 7);
+        }
+
+		Data data = new Data();
+		data.setInfo(ret);
+
+		return data;
 	}
 	
 	@Override
-	public String decode(List<Integer> channel) {
+	public String decode(Data channel) {
 		if (channel.size() == 0)
 			return "";
 		
@@ -76,9 +79,8 @@ public class MessageASCIICodec implements Codec<String> {
 	}
 	
 	private int joinBits(int[] bits) {
-		int ret = ((bits[7] << 7) + (bits[6] << 6) + (bits[5] << 5) + (bits[4] << 4) + (bits[3] << 3) + 
-				(bits[2] << 2) + (bits[1] << 1) + (bits[0] << 0));
-		return ret;
+        return ((bits[7] << 7) + (bits[6] << 6) + (bits[5] << 5) + (bits[4] << 4) + (bits[3] << 3) +
+                (bits[2] << 2) + (bits[1] << 1) + (bits[0] << 0));
 	}
 
 }
