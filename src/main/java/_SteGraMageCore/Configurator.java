@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class Configurator {
 	
-	public static <M,C> void configure(SteGraMage<M,C> st, Set<Class<?>> plugins, List<String> messageCodecList, List<String> channelCodecList) {
+	public static <M,C> void configure(Core<M,C> st, Set<Class<?>> plugins, List<String> messageCodecList, List<String> channelCodecList) {
 		
 		DecoratorBuilder<Codec<M>> messageCodecBuilder = new DecoratorBuilder<Codec<M>>(plugins);
 		DecoratorBuilder<Codec<C>> channelCodecBuilder = new DecoratorBuilder<Codec<C>>(plugins);

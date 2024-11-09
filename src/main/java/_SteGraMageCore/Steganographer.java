@@ -8,7 +8,7 @@ class Steganographer {
 	private final int HIDE_MASK = 1;
 	private final int UNHIDE_MASK = 0x00000001;
 
-	List<Integer> hide(List<Integer> message, List<Integer> channel) {
+	Data hide(Data message, Data channel) {
 		if(message.size() > channel.size() * CHANNEL_MESSAGE_RATIO)
 			throw new IllegalArgumentException();
 		
@@ -27,16 +27,19 @@ class Steganographer {
 		return channel;
 	}
 	
-	List<Integer> unhide(List<Integer> channel) {
+	Data unhide(Data channel) {
 		if (channel == null)
 			throw new IllegalArgumentException("El canal no puede ser nulo");
-		List<Integer> b_mensaje = new ArrayList<Integer>(channel.size());
+		List<Integer> bitMessage = new ArrayList<Integer>(channel.size());
 		
 		for(int i = 0; i < channel.size(); i++) {
-			b_mensaje.add(extractBit(channel.get(i))); 	
+			bitMessage.add(extractBit(channel.get(i)));
 		}
-		
-		return b_mensaje;
+
+		Data data = new Data();
+		data.setInfo(bitMessage);
+
+		return data;
 	}
 	
 	private int extractBit(int channel) {

@@ -26,4 +26,8 @@ public class Data {
     public int get(int index) {
         return _info.get(index);
     }
+
+    public void set(int i, int data) {
+        _info.set(i, data);
+    }
 }
