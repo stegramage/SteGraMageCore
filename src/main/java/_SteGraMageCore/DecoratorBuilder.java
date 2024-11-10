@@ -15,7 +15,7 @@ public class DecoratorBuilder<T> {
 	
 	public T buildComponent(List<String> names) {		
 		T component = null;
-		if (names.size() > 0) {
+		if (!names.isEmpty()) {
 			try {
 				_iface = getComponentInterface(names.get(0));
 				

@@ -5,17 +5,22 @@ import java.util.Set;
 
 public class Configurator {
 	
-	public static <M,C> void configure(Core<M,C> st, Set<Class<?>> plugins, List<String> messageCodecList, List<String> channelCodecList) {
+	public static <M,C> void configure(Core<M,C> core, Set<Class<?>> plugins, List<String> messageCodecList, List<String> channelCodecList) {
 		
-		DecoratorBuilder<Codec<M>> messageCodecBuilder = new DecoratorBuilder<Codec<M>>(plugins);
-		DecoratorBuilder<Codec<C>> channelCodecBuilder = new DecoratorBuilder<Codec<C>>(plugins);
+		DecoratorBuilder<Decoder<M>> messageDecoderBuilder = new DecoratorBuilder<Decoder<M>>(plugins);
+		DecoratorBuilder<Encoder<M>> messageEncoderBuilder = new DecoratorBuilder<Encoder<M>>(plugins);
+		DecoratorBuilder<Decoder<C>> channelDecoderBuilder = new DecoratorBuilder<Decoder<C>>(plugins);
+		DecoratorBuilder<Encoder<C>> channelEncoderBuilder = new DecoratorBuilder<Encoder<C>>(plugins);
+
+		Decoder<M> messageDecoder = messageDecoderBuilder.buildComponent(messageCodecList);
+		Encoder<M> messageEncoder = messageEncoderBuilder.buildComponent(messageCodecList);
+		Decoder<C> channelDecoder = channelDecoderBuilder.buildComponent(channelCodecList);
+		Encoder<C> channelEncoder = channelEncoderBuilder.buildComponent(channelCodecList);
 		
-		
-		Codec<M> messageCodec = messageCodecBuilder.buildComponent(messageCodecList);
-		Codec<C> channelCodec = channelCodecBuilder.buildComponent(channelCodecList);
-		
-		st.setChannelCodec(channelCodec);
-		st.setMessageCodec(messageCodec);
+		core.setMessageDecoder(messageDecoder);
+		core.setMessageEncoder(messageEncoder);
+		core.setChannelDecoder(channelDecoder);
+		core.setChannelEncoder(channelEncoder);
 	}
 
 }

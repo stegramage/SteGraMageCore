@@ -14,17 +14,22 @@ public class PluginsLoader {
 
 	private void loadPluginsSet(String path) {
 		Discover discover = new Discover();
-		Set<Class<?>> messageCodecs = new HashSet<Class<?>>(); 
-		Set<Class<?>> channelCodecs = new HashSet<Class<?>>();
+		Set<Class<?>> messageDecoders = new HashSet<Class<?>>();
+		Set<Class<?>> messageEncoders = new HashSet<Class<?>>();
+		Set<Class<?>> channelDecoders = new HashSet<Class<?>>();
+		Set<Class<?>> channelEncoders = new HashSet<Class<?>>();
+
 		try {
-			messageCodecs = discover.findClasses(path, Codec.class);
-			channelCodecs = discover.findClasses(path, Codec.class);
+			messageDecoders = discover.findClasses(path, Encoder.class);
+			messageEncoders = discover.findClasses(path, Decoder.class);
+			channelDecoders = discover.findClasses(path, Encoder.class);
+			channelEncoders = discover.findClasses(path, Decoder.class);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-		messageCodecs.addAll(channelCodecs);
-		_plugins = messageCodecs;
+
+		messageDecoders.addAll(messageDecoders);
+		_plugins = messageDecoders;
 	}
 	
 	public Set<Class<?>> getPlugins() {
